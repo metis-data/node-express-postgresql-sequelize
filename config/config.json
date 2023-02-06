@@ -1,0 +1,13 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "demo",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": "5432"
+  },
+  "staging": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}
