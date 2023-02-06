@@ -1,0 +1,17 @@
+name: Test application on Pull Request
+run-name: Test application on Pull Request
+on: [pull_request]
+env:
+  METIS_API_KEY: ${{ vars.METIS_API_KEY }}
+  MOCK_CONTAINER_DEPENDENCIES: true
+
+jobs:
+  Run-Tests-With-Metis-On-Pull-Request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install modules
+        run: npm install
+      - name: Run tests
+        run: npm run test

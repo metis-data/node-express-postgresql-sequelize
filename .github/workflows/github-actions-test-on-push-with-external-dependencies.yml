@@ -1,0 +1,33 @@
+name: Test application on Push with external dependencies
+run-name: Test application on Push with external dependencies
+on: [push]
+
+jobs:
+  Run-Tests-With-Metis-On-Push:
+    runs-on: ubuntu-latest
+    services:
+      database:
+        image: public.ecr.aws/o2c0x5x8/metis-demo-mini-db:latest
+        ports:
+           - 5432:5432
+
+    steps:
+      - name: Initialize metis collector
+        uses: metis-data/test-collector@v1
+        with:
+          connection-string: postgresql://postgres:postgres@database:5432/demo?schema=imdb
+          metis-api-key: ${{ vars.METIS_API_KEY }}
+          github-token: ${{ secrets.PR_TOKEN_GITHUB }}
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install modules
+        run: npm install
+      - name: Run tests
+        run: npm run test
+        env:
+          OTEL_TRACES_EXPORTER: otlp
+          OTEL_EXPORTER_OTLP_PROTOCOL: http/json
+          OTEL_NODE_RESOURCE_DETECTORS: all
+          OTEL_EXPORTER_OTLP_ENDPOINT: http://127.0.0.1:4318/
+          OTEL_SERVICE_NAME: sequelize
+          NODE_OPTIONS: --require @opentelemetry/auto-instrumentations-node/register --require @opentelemetry/exporter-trace-otlp-http
