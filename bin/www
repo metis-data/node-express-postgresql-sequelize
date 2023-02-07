@@ -48,12 +48,6 @@ var debug = require('debug')('node-sequelize:server');
 var http = require('http');
 
 /**
- * Sync Database
- */
-
-models.sequelize.sync()
-
-/**
  * Get port from environment and store in Express.
  */
 
