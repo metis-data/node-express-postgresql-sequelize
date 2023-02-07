@@ -48,6 +48,11 @@ var debug = require('debug')('node-sequelize:server');
 var http = require('http');
 
 /**
+ * Seed database
+ */
+models.seedDatabase();
+
+/**
  * Get port from environment and store in Express.
  */
 
