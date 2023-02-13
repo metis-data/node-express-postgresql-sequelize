@@ -42,7 +42,7 @@ interceptor.instrument(
  *  END METIS REQUIRED MIDDLEWARE
  */
 
-var models = require('../models');
+var models = require('../src/models');
 var app = require('../app');
 var debug = require('debug')('node-sequelize:server');
 var http = require('http');
