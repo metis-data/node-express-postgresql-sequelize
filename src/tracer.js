@@ -21,8 +21,14 @@ const shudownhook = async () => {
   console.log('Tracer provider and exporter were shut down.');
 }
 
-process.on('SIGINT', shudownhook);
-process.on('SIGTERM', shudownhook);
+process.on('SIGINT', () => {
+  shudownhook();
+  process.exit(0);
+});
+process.on('SIGTERM', () => {
+  shudownhook();
+  process.exit(0);
+});
 
 const connectionString = process.env.PG_CONNECTION_STRING;
 

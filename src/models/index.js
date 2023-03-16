@@ -51,7 +51,6 @@ db.seedDatabase = async () => {
     $done$`);
 };
 
-
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
