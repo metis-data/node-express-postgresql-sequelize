@@ -1,0 +1,7 @@
+version: '2.1'
+
+services:
+  api:
+    build: .
+    network_mode: "host"
+    image: node-express-postgresql-sequelize

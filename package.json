@@ -6,7 +6,15 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@metis-data/pg-interceptor": "^2.3.16",
     "@metis-data/sequelize-express-interceptor": "^2.0.6",
+    "@opentelemetry/api": "^1.4.1",
+    "@opentelemetry/context-async-hooks": "^1.10.0",
+    "@opentelemetry/instrumentation": "^0.36.0",
+    "@opentelemetry/instrumentation-http": "^0.36.0",
+    "@opentelemetry/resources": "^1.10.0",
+    "@opentelemetry/sdk-trace-base": "^1.10.0",
+    "@opentelemetry/semantic-conventions": "^1.10.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
