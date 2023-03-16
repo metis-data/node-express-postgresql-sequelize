@@ -1,4 +1,4 @@
-const Airport = require('./airport');
+const Airport = require('../models').Airport;
 
 module.exports = {
   getAirports(orderResults) {

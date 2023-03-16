@@ -1,6 +1,6 @@
-let opentelemetry = require('@opentelemetry/api').default;
-let registerInstrumentations = require('@opentelemetry/instrumentation').registerInstrumentations;
-let Resource = require('@opentelemetry/resources').Resource;
+let opentelemetry = require('@opentelemetry/api');
+let { registerInstrumentations } = require('@opentelemetry/instrumentation');
+let { Resource } = require('@opentelemetry/resources');
 let {
   BasicTracerProvider,
   BatchSpanProcessor,
@@ -11,7 +11,6 @@ let { SemanticResourceAttributes } = require('@opentelemetry/semantic-convention
 let { getMetisExporter, MetisHttpInstrumentation, MetisPgInstrumentation } = require('@metis-data/pg-interceptor');
 let { AsyncHooksContextManager } = require('@opentelemetry/context-async-hooks');
 
-let metisExporter; 
 let tracerProvider;
 
 const shudownhook = async () => {
@@ -30,27 +29,20 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-const connectionString = process.env.PG_CONNECTION_STRING;
+const connectionString = process.env.DATABASE_URL;
 
 const startMetisInstrumentation = () => {
   tracerProvider = new BasicTracerProvider({
     resource: new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: process.env.METIS_SERVICE_NAME,
-      [SemanticResourceAttributes.SERVICE_VERSION]: process.env.METIS_SERVICE_VERSION,
+      [SemanticResourceAttributes.SERVICE_NAME]: 'pg-sequelize-example',
+      [SemanticResourceAttributes.SERVICE_VERSION]: 'my-service-version',
     }),
   });
 
-  metisExporter = getMetisExporter(process.env.METIS_API_KEY);
+  const metisExporter = getMetisExporter(process.env.METIS_API_KEY);
 
-  tracerProvider.addSpanProcessor(
-    new BatchSpanProcessor(metisExporter)
-  );
-  
-  if (process.env.OTEL_DEBUG) {
-      tracerProvider.addSpanProcessor(
-        new SimpleSpanProcessor(new ConsoleSpanExporter())
-      );
-  }
+  tracerProvider.addSpanProcessor(new BatchSpanProcessor(metisExporter));
+  tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
   const contextManager = new AsyncHooksContextManager();
 
@@ -61,14 +53,11 @@ const startMetisInstrumentation = () => {
 
   const excludeUrls = [/favicon.ico/];
   registerInstrumentations({
-    instrumentations: [
-      new MetisPgInstrumentation({ connectionString }), 
-      new MetisHttpInstrumentation(excludeUrls)
-    ],
+    instrumentations: [new MetisPgInstrumentation({ connectionString }), new MetisHttpInstrumentation(excludeUrls)],
   });
 };
 
 module.exports = {
-  shudownhook,
   startMetisInstrumentation,
-}
+  shudownhook,
+};
