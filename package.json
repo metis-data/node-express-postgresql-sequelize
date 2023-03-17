@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./src/main",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "dependencies": {
     "@metis-data/pg-interceptor": "^2.3.16",
