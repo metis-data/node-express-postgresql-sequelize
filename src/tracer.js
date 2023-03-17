@@ -12,6 +12,7 @@ let { getMetisExporter, MetisHttpInstrumentation, MetisPgInstrumentation } = req
 let { AsyncHooksContextManager } = require('@opentelemetry/context-async-hooks');
 
 let tracerProvider;
+let metisExporter;
 
 const shudownhook = async () => {
   console.log('Shutting down tracer provider and exporter...');
@@ -21,12 +22,11 @@ const shudownhook = async () => {
 }
 
 process.on('SIGINT', () => {
-  shudownhook();
-  process.exit(0);
+  shudownhook().finally(() => process.exit(0));
 });
 process.on('SIGTERM', () => {
   shudownhook();
-  process.exit(0);
+  shudownhook().finally(() => process.exit(0));
 });
 
 const connectionString = process.env.DATABASE_URL;
@@ -34,15 +34,18 @@ const connectionString = process.env.DATABASE_URL;
 const startMetisInstrumentation = () => {
   tracerProvider = new BasicTracerProvider({
     resource: new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: 'pg-sequelize-example',
-      [SemanticResourceAttributes.SERVICE_VERSION]: 'my-service-version',
+      [SemanticResourceAttributes.SERVICE_NAME]: process.env.METIS_SERVICE_NAME,
+      [SemanticResourceAttributes.SERVICE_VERSION]: process.env.METIS_SERVICE_VERSION,
     }),
   });
 
-  const metisExporter = getMetisExporter(process.env.METIS_API_KEY);
+  metisExporter = getMetisExporter(process.env.METIS_API_KEY);
 
   tracerProvider.addSpanProcessor(new BatchSpanProcessor(metisExporter));
-  tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+  
+  if (process.env.OTEL_DEBUG === "true") {
+    tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+  }
 
   const contextManager = new AsyncHooksContextManager();
 

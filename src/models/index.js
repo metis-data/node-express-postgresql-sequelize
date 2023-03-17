@@ -3,13 +3,15 @@
 const Sequelize = require('sequelize');
 const process = require('process');
 const db = {};
+const fsPromises = require('fs').promises;
 
 let sequelize = new Sequelize(process.env['DATABASE_URL'], { dialect: 'postgres' });
-let { setPgConnection } = require('@metis-data/pg-interceptor');
-setPgConnection(process.env['DATABASE_URL']);
 
 let models = [
-  '../airports/airport'
+  '../airports/entities/airport.entity',
+  '../flights/entities/flight.entity',
+  '../flights/entities/flight_indexed.entity',
+  '../tickets/entities/ticket_flight.entity',
 ];
 
 models.forEach((file) => {
@@ -24,23 +26,16 @@ Object.keys(db).forEach((modelName) => {
 });
 
 db.seedDatabase = async () => {
-  sequelize.query(`DO $done$
-    BEGIN
-    
-    IF NOT EXISTS (
-        SELECT
-        FROM pg_catalog.pg_tables 
-        WHERE
-            schemaname = 'bookings'
-            AND tablename  = 'flights_indexed'
-    ) THEN
-      CREATE TABLE flights_indexed AS (SELECT * FROM flights);
-    
-      CREATE INDEX departure_aiport_idx ON flights_indexed(departure_airport);
-    END IF;
-    
-    END;
-    $done$`);
+  let files = await fsPromises.readdir('src/models/migrations/');
+  for(let id in files) {
+    if(files[id].endsWith(".sql")){
+      let data = await fsPromises.readFile('src/models/migrations/' + files[id], 'utf8');
+      console.log("Running " + data);
+      console.log(await sequelize.query(data));
+    }
+  }
+
+  console.log("Done migrating");
 };
 
 db.sequelize = sequelize;

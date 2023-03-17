@@ -1,8 +1,9 @@
 require('dotenv').config()
 const process = require('process');
 
-var models = require('../src/models');
 var app = require('../src/app');
+
+var models = require('../src/models');
 var debug = require('debug')('node-sequelize:server');
 var http = require('http');
 

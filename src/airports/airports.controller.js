@@ -4,6 +4,7 @@ module.exports = {
   initialize(router) {
     router.get('/airports', this.getAirports);
   },
+  
   getAirports(req, res) {
     return airportsService.getAirports(req.query.orderResults)
       .then((results) => res.status(200).send(results))
