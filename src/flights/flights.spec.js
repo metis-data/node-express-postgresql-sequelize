@@ -2,12 +2,12 @@ require('dotenv').config();
 const { startMetisInstrumentation, shudownhook } = require('../tracer');
 const request = require('supertest');
 
-startMetisInstrumentation();
-
 describe('AppController (e2e)', () => {
   let app;
 
   beforeAll(async () => {
+    startMetisInstrumentation();
+    
     app = require('../app');
   });
 
