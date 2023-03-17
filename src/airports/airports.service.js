@@ -11,7 +11,6 @@ module.exports = {
           ],
         });
     } else {
-      console.log(Airport);
       airports = Airport
         .findAll();
     }

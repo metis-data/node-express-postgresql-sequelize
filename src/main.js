@@ -1,12 +1,14 @@
-require('dotenv').config()
-const app = require('./app');
+require('dotenv').config();
+const tracer = require('./tracer');
+
+tracer.startMetisInstrumentation();
+
 const models = require('./models');
-const http = require('http');
+const app = require('./app');
 
 async function bootstrap() {
   await models.seedDatabase();
-  const server = http.createServer(app);
-  server.listen(process.env.PORT || 3000);
+  app.listen(process.env.PORT || 3000);
 }
 
 bootstrap();

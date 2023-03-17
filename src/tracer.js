@@ -25,7 +25,6 @@ process.on('SIGINT', () => {
   shudownhook().finally(() => process.exit(0));
 });
 process.on('SIGTERM', () => {
-  shudownhook();
   shudownhook().finally(() => process.exit(0));
 });
 
