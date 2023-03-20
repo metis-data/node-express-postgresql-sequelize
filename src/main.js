@@ -1,7 +1,7 @@
 require('dotenv').config();
-const tracer = require('./tracer');
+const { startMetisInstrumentation } = require('./tracer');
 
-tracer.startMetisInstrumentation();
+startMetisInstrumentation();
 
 const models = require('./models');
 const app = require('./app');
