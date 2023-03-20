@@ -5,3 +5,4 @@ services:
     build: .
     network_mode: "host"
     image: node-express-postgresql-sequelize
+    container_name: node-express-postgresql-sequelize
