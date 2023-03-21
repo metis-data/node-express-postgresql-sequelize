@@ -5,7 +5,7 @@ const request = require('supertest');
 describe('AppController (e2e)', () => {
   let app;
 
-  beforeAll(async () => {
+  before(async () => {
     startMetisInstrumentation();
     
     app = require('../app');
@@ -23,7 +23,7 @@ describe('AppController (e2e)', () => {
       .expect(200);
   });
 
-  afterAll(async () => {
+  after(async () => {
     await shudownhook();
   });
 });

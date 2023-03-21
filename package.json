@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./src/main",
-    "test": "jest --detectOpenHandles"
+    "test": "mocha --recursive './src/**/*.spec.js'"
   },
   "dependencies": {
     "@metis-data/pg-interceptor": "^2.3.16",
@@ -28,7 +28,7 @@
     "sequelize": "^6.2.4"
   },
   "devDependencies": {
-    "jest": "^27.2.5",
+    "mocha": "^10.2.0",
     "supertest": "^6.1.3"
   }
 }
