@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./src/main",
     "test": "mocha --recursive './src/**/*.spec.js'"
-  },
+  }, 
   "dependencies": {
     "@metis-data/pg-interceptor": "^2.3.21",
     "@opentelemetry/api": "^1.4.1",
