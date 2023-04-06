@@ -8,10 +8,8 @@ const fsPromises = require('fs').promises;
 let sequelize = new Sequelize(process.env['DATABASE_URL'], { dialect: 'postgres' });
 
 let models = [
-  '../airports/entities/airport.entity',
-  '../flights/entities/flight.entity',
-  '../flights/entities/flight_indexed.entity',
-  '../tickets/entities/ticket_flight.entity',
+  '../titles/entities/title_rating.entity',
+  '../titles/entities/title_rating_indexed.entity',
 ];
 
 models.forEach((file) => {

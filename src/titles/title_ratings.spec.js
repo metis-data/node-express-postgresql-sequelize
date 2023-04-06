@@ -11,15 +11,15 @@ describe('AppController (e2e)', () => {
     app = require('../app');
   });
 
-  it('/flights/departures/AAQ (GET)', async () => {
+  it('/titles/ratings/best (GET)', async () => {
     await request(app)
-      .get('/flights/departures/AAQ')
+      .get('/titles/ratings/best')
       .expect(200);
   });
 
-  it('/flights/departuresIndexed/AAQ (GET)', async () => {
+  it('/titles/ratingsIndexed/best (GET)', async () => {
     await request(app)
-      .get('/flights/departuresIndexed/AAQ')
+      .get('/titles/ratingsIndexed/best')
       .expect(200);
   });
 
