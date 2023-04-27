@@ -10,6 +10,7 @@ let sequelize = new Sequelize(process.env['DATABASE_URL'], { dialect: 'postgres'
 let models = [
   '../titles/entities/title_rating.entity',
   '../titles/entities/title_rating_indexed.entity',
+  '../titles/entities/title_basic.entity',
 ];
 
 models.forEach((file) => {
