@@ -19,5 +19,3 @@ docker start node_express_postgresql_sequelize 2>/dev/null || docker run \
   --name=node_express_postgresql_sequelize \
   --network 'container:node_express_postgresql_sequelize_ssh' \
   node_express_postgresql_sequelize
-
-# docker exec -it node_express_postgresql_sequelize_ssh /bin/bash
