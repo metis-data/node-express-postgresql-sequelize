@@ -1,3 +1,5 @@
+docker build -t node_express_postgresql_sequelize_ssh ssh_tunnel
+
 docker start node_express_postgresql_sequelize_ssh 2>/dev/null || docker run -d \
   --name=node_express_postgresql_sequelize_ssh \
   -e TZ=Etc/UTC \
@@ -5,13 +7,14 @@ docker start node_express_postgresql_sequelize_ssh 2>/dev/null || docker run -d 
   -p 127.0.0.1:58222:2222 \
   -p 127.0.0.1:3000:3000 \
   -e USER_NAME=tunnel \
-  -v "$(pwd)"/ssh_tunnel:/config \
   --restart unless-stopped \
-  lscr.io/linuxserver/openssh-server:latest
+  node_express_postgresql_sequelize_ssh
+
+sleep 5
 
 ssh-keygen -R '[localhost]:58222'
-pkill -f "ssh -i $(pwd)/tunnel_rsa tunnel@localhost -p 58222"
-ssh -i "$(pwd)"/tunnel_rsa tunnel@localhost -p 58222 -4 -o StrictHostKeyChecking=no -R 5432:0.0.0.0:5432 -fN
+pkill -f "ssh -i $(pwd)/ssh_tunnel/tunnel_rsa tunnel@localhost -p 58222"
+ssh -i "$(pwd)"/ssh_tunnel/tunnel_rsa tunnel@localhost -p 58222 -4 -o StrictHostKeyChecking=no -R 5432:0.0.0.0:5432 -fN
 
 docker build -t node_express_postgresql_sequelize .
 
