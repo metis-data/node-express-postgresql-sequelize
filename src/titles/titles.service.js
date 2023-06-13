@@ -30,6 +30,8 @@ module.exports = {
       });
 
     /*  
+    CREATE INDEX IF NOT EXISTS title_principals_nconst_idx ON imdb.title_principals(nconst) INCLUDE (tconst);
+    
     return sequelize.query(`
       SELECT TitleBasic.*
       FROM imdb.title_basics AS TitleBasic
