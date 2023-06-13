@@ -22,6 +22,7 @@ function bootstrap(){
   });
   
   app.use(function(err, req, res, next) {
+    console.log("Error: " + err);
     res.locals.message = err.message;
     res.locals.error = err;
     res.status(err.status || 500).send({ error: err })
