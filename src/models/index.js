@@ -15,7 +15,7 @@ let models = [
   '../names/entities/name_basic.entity',
 ];
 
-function createModels() {
+(function createModels() {
   models.forEach((file) => {
     const model = require(file)(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
@@ -26,29 +26,47 @@ function createModels() {
       db[modelName].associate(db);
     }
   });
-}
+})();
 
-function createRelations() {
-  (function joinTitlePrincipalAndTitleBasic(){
-    db.TitlePrincipal.hasOne(db.TitleBasic, {
-      foreignKey: 'tconst'
-    });
-  })();
-  
+(function createRelations() {
   (function joinTitleBasiclAndTitlePrincipal(){
     db.TitleBasic.hasMany(db.TitlePrincipal, {
-      foreignKey: 'tconst'
+      foreignKey: 'tconst',
+      targetKey: 'tconst'
+    });
+
+    db.TitlePrincipal.belongsTo(db.TitleBasic, {
+      foreignKey: 'tconst',
+      targetKey: 'tconst'
     });
   })();
 
   (function joinTitlePrincipalAndNameBasic() {
     db.TitlePrincipal.hasOne(db.NameBasic, {
-      foreignKey: 'nconst'
+      foreignKey: 'nconst',
+      targetKey: 'nconst'
+    });
+
+    db.NameBasic.belongsTo(db.TitlePrincipal, {
+      foreignKey: 'nconst',
+      targetKey: 'nconst'
     });
   })();
-}
 
-function seed(){
+  (function joinTitleRatingAndTitleBasic() {
+    db.TitleBasic.hasOne(db.TitleRating, {
+      foreignKey: 'tconst',
+      targetKey: 'tconst'
+    });
+
+    db.TitleRating.belongsTo(db.TitleBasic, {
+      foreignKey: 'tconst',
+      targetKey: 'tconst'
+    });
+  })();
+})();
+
+(function seed(){
   db.seedDatabase = async () => {
     let files = await fsPromises.readdir('src/models/migrations/');
     for(let id in files) {
@@ -61,11 +79,7 @@ function seed(){
 
     console.log("Done migrating");
   };
-}
-
-createModels();
-createRelations();
-seed();
+})();
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
