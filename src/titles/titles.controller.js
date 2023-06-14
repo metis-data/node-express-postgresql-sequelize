@@ -5,6 +5,7 @@ module.exports = {
     router.get('/titles', this.getTitles);
     router.get('/titlesForAnActor', this.titlesForAnActor);
     router.get('/highestRatestMoviesForAnActor', this.highestRatestMoviesForAnActor);
+    router.get('/highestRatestMovies', this.highestRatestMovies);
   },
 
   getTitles(req, res) {
@@ -23,5 +24,11 @@ module.exports = {
     return titlesService.highestRatestMoviesForAnActor(req.query.nconst)
       .then((results) => res.status(200).send(results))
       .catch((error) => { console.log(error); res.status(400).send(error); });
-  }
+  },
+
+  highestRatestMovies(req, res) {
+    return titlesService.highestRatestMovies(req.query.numvotes)
+      .then((results) => res.status(200).send(results))
+      .catch((error) => { console.log(error); res.status(400).send(error); });
+  },
 };

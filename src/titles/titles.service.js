@@ -94,6 +94,52 @@ module.exports = {
 
     /*  
     CREATE INDEX IF NOT EXISTS title_principals_nconst_idx ON imdb.title_principals(nconst) INCLUDE (tconst);
+
+    return titleBasic 
+      .findAll({
+        include: [
+          {
+            model: titleRating,
+            required: true,
+            duplicating: false,
+          },
+          {
+            model: titlePrincipal,
+            required: true,
+            duplicating: false,
+            where: {
+              'nconst': nconst
+            },
+          },
+        ],
+        order: [
+          [ titleRating, 'averagerating', 'DESC'], 
+        ],
+        limit: 10
+      });
+    */
+  },
+  
+  highestRatestMovies(numvotes) {
+    return titleBasic 
+      .findAll({
+        include: [
+          {
+            model: titleRating,
+            required: true,
+            duplicating: false,
+            where: {
+              'numvotes': { [Op.gte]: numvotes }
+            }
+          },
+        ],
+        order: [
+          [ titleRating, 'averagerating', 'DESC'], 
+        ]
+      });
+
+    /*  
+    CREATE INDEX IF NOT EXISTS title_principals_nconst_idx ON imdb.title_principals(nconst) INCLUDE (tconst);
     
     return titleBasic 
       .findAll({
@@ -118,5 +164,5 @@ module.exports = {
         limit: 10
       });
     */
-  }
+  },
 };
