@@ -1,3 +1,5 @@
+chmod 0600 "$(pwd)"/ssh_tunnel/tunnel_rsa
+
 docker build -t node_express_postgresql_sequelize_ssh ssh_tunnel
 
 docker start node_express_postgresql_sequelize_ssh 2>/dev/null || docker run -d \
