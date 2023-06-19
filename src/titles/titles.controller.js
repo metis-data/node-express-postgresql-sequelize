@@ -6,6 +6,7 @@ module.exports = {
     router.get('/titlesForAnActor', this.titlesForAnActor);
     router.get('/highestRatestMoviesForAnActor', this.highestRatestMoviesForAnActor);
     router.get('/highestRatestMovies', this.highestRatestMovies);
+    router.get('/commonMoviesForTwoActors', this.commonMoviesForTwoActors);
   },
 
   getTitles(req, res) {
@@ -28,6 +29,12 @@ module.exports = {
 
   highestRatestMovies(req, res) {
     return titlesService.highestRatestMovies(req.query.numvotes)
+      .then((results) => res.status(200).send(results))
+      .catch((error) => { console.log(error); res.status(400).send(error); });
+  },
+
+  commonMoviesForTwoActors(req, res) {
+    return titlesService.commonMoviesForTwoActors(req.query.actor1, req.query.actor2)
       .then((results) => res.status(200).send(results))
       .catch((error) => { console.log(error); res.status(400).send(error); });
   },

@@ -32,7 +32,15 @@ let models = [
   (function joinTitleBasiclAndTitlePrincipal(){
     db.TitleBasic.hasMany(db.TitlePrincipal, {
       foreignKey: 'tconst',
-      targetKey: 'tconst'
+      targetKey: 'tconst',
+      as: 'titleBasicTitlePrincipal',
+    });
+    
+    // Another association to allow for two joins when taking movies for two actors
+    db.TitleBasic.hasMany(db.TitlePrincipal, {
+      foreignKey: 'tconst',
+      targetKey: 'tconst',
+      as: 'titleBasicTitlePrincipal2',
     });
 
     db.TitlePrincipal.belongsTo(db.TitleBasic, {
