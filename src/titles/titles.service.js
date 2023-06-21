@@ -416,4 +416,99 @@ module.exports = {
     //return crewOfGivenMoveInAppCode();
     //return crewOfGivenMoveManualFast();
   },
+  
+  mostProlificActorInGenre(genre) {
+    function mostProlificActorInGenreInApp() {
+      const titlesMatchingGenre = titleBasic
+        .findAll({
+          attributes: ['tconst', 'genres'],
+          where: {
+            genres: { [Op.like]: '%' + genre + '%' }
+          }
+        }).then(titles => titles
+          .filter(t => t.genres.split(',').indexOf(genre) >= 0)
+          .map(t => t.tconst)
+        );
+
+      const principals = titlesMatchingGenre.then(titles => titlePrincipal
+        .findAll({
+          attributes: ['nconst'],
+          where: {
+            tconst: { [Op.in]: [...new Set(titles)] }
+          }
+        }).then(principals => {
+          const counts = principals
+            .reduce(
+              (entryMap, e) => {
+                entryMap[e.nconst] = (entryMap[e.nconst] || 0) + 1;
+                return entryMap;
+              },
+              {}
+            );
+          const keys = Object.keys(counts);
+          const countsWithKeys = keys.map(k => [counts[k], k]);
+          countsWithKeys.sort((pair1, pair2) => pair2[0] - pair1[0]);
+          const topResults = countsWithKeys.splice(0,10);
+          return topResults;
+        })
+      );
+
+      return principals.then(countsWithKeys => nameBasic
+        .findAll({
+          where: {
+            nconst: { [Op.in]: countsWithKeys.map(c => "" + c[1]) }
+          }
+        }).then(actors => actors.map(a => {
+          a.movies_count = countsWithKeys.filter(c => c[1] == a.nconst)[0][0];
+          return a;
+        })));
+    }
+
+    function mostProlificActorInGenreManual(){
+      return sequelize.query(`
+        SELECT NB.nconst, NB.primaryname, NB.birthyear, COUNT(*) AS movies_count
+        FROM imdb.name_basics AS NB
+        LEFT JOIN imdb.title_principals AS TP ON TP.nconst = NB.nconst
+        LEFT JOIN imdb.title_basics AS TB ON TB.tconst = TP.tconst
+        WHERE TB.genres = :genre OR TB.genres LIKE (:genre || '%,') OR TB.genres LIKE ('%,' || :genre || ',%') OR TB.genres LIKE ('%,' || :genre)
+        GROUP BY NB.nconst, NB.primaryname, NB.birthyear
+        ORDER BY movies_count DESC
+        LIMIT 10
+      `, {
+        model: nameBasic,
+        mapToModel: true,
+        replacements: {
+          genre: genre
+        }
+      });
+    }
+
+    function mostProlificActorInGenreManualOptimized(){
+      return sequelize.query(`
+        WITH best_actors AS (
+          SELECT TP.nconst, COUNT(*) AS movies_count
+          FROM imdb.title_basics AS TB
+          LEFT JOIN imdb.title_principals AS TP ON TP.tconst = TB.tconst
+          WHERE TB.genres = :genre OR TB.genres LIKE (:genre || '%,') OR TB.genres LIKE ('%,' || :genre || ',%') OR TB.genres LIKE ('%,' || :genre)
+          GROUP BY TP.nconst
+          ORDER BY movies_count DESC
+          LIMIT 10
+        )
+        SELECT BA.nconst, NB.primaryname, NB.birthyear, BA.movies_count
+        FROM best_actors AS BA
+        JOIN imdb.name_basics AS NB ON NB.nconst = BA.nconst
+        ORDER BY movies_count DESC
+      `, {
+        model: nameBasic,
+        mapToModel: true,
+        replacements: {
+          genre: genre
+        }
+      });
+    }
+
+    return mostProlificActorInGenreInApp();
+    //return mostProlificActorInGenreManual();
+    //return mostProlificActorInGenreManualOptimized();
+  },
 };
