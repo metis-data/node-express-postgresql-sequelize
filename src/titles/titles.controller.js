@@ -10,6 +10,7 @@ module.exports = {
     router.get('/crewOfGivenMove', this.handleResult(this.crewOfGivenMove));
     router.get('/mostProlificActorInPeriod', this.handleResult(this.mostProlificActorInPeriod));
     router.get('/mostProlificActorInGenre', this.handleResult(this.mostProlificActorInGenre));
+    router.get('/mostCommonTeammates', this.handleResult(this.mostCommonTeammates));
   },
 
   getTitles(req, res) {
@@ -42,6 +43,10 @@ module.exports = {
 
   mostProlificActorInGenre(req, res) {
     return titlesService.mostProlificActorInGenre(req.query.genre);
+  },
+
+  mostCommonTeammates(req, res) {
+    return titlesService.mostCommonTeammates(req.query.nconst);
   },
 
   handleResult(lambda) {
