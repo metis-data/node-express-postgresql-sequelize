@@ -12,6 +12,7 @@ let models = [
   '../titles/entities/title_rating_indexed.entity',
   '../titles/entities/title_basic.entity',
   '../titles/entities/title_principal.entity',
+  '../titles/entities/title_crew.entity',
   '../names/entities/name_basic.entity',
 ];
 
@@ -52,12 +53,14 @@ let models = [
   (function joinTitlePrincipalAndNameBasic() {
     db.TitlePrincipal.hasOne(db.NameBasic, {
       foreignKey: 'nconst',
-      targetKey: 'nconst'
+      targetKey: 'nconst',
+      sourceKey: 'nconst'
     });
 
     db.NameBasic.belongsTo(db.TitlePrincipal, {
       foreignKey: 'nconst',
-      targetKey: 'nconst'
+      targetKey: 'nconst',
+      sourceKey: 'nconst'
     });
   })();
 
@@ -68,6 +71,18 @@ let models = [
     });
 
     db.TitleRating.belongsTo(db.TitleBasic, {
+      foreignKey: 'tconst',
+      targetKey: 'tconst'
+    });
+  })();
+
+  (function joinTitleBasicAndTitleCrew(){
+    db.TitleBasic.hasOne(db.TitleCrew, {
+      foreignKey: 'tconst',
+      targetKey: 'tconst',
+    });
+
+    db.TitleCrew.belongsTo(db.TitleBasic, {
       foreignKey: 'tconst',
       targetKey: 'tconst'
     });
