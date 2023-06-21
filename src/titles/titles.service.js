@@ -417,6 +417,104 @@ module.exports = {
     //return crewOfGivenMoveManualFast();
   },
   
+  mostProlificActorInPeriod(startYear, endYear) {
+    function mostProlificActorInPeriodInApp() {
+      const titlesMatchingGenre = titleBasic
+        .findAll({
+          attributes: ['tconst'],
+          where: {
+            startyear: { 
+              [Op.and]: [ 
+                { [Op.gte]: startYear },
+                { [Op.lte]: endYear }
+              ]
+            }
+          }
+        }).then(titles => titles.map(t => t.tconst));
+
+      const principals = titlesMatchingGenre.then(titles => titlePrincipal
+        .findAll({
+          attributes: ['nconst'],
+          where: {
+            tconst: { [Op.in]: [...new Set(titles)] }
+          }
+        }).then(principals => {
+          const counts = principals
+            .reduce(
+              (entryMap, e) => {
+                entryMap[e.nconst] = (entryMap[e.nconst] || 0) + 1;
+                return entryMap;
+              },
+              {}
+            );
+          const keys = Object.keys(counts);
+          const countsWithKeys = keys.map(k => [counts[k], k]);
+          countsWithKeys.sort((pair1, pair2) => pair2[0] - pair1[0]);
+          const topResults = countsWithKeys.splice(0,1);
+          return topResults;
+        })
+      );
+
+      return principals.then(countsWithKeys => nameBasic
+        .findAll({
+          where: {
+            nconst: { [Op.in]: countsWithKeys.map(c => "" + c[1]) }
+          }
+        }).then(actors => actors.map(a => {
+          a.movies_count = countsWithKeys.filter(c => c[1] == a.nconst)[0][0];
+          return a;
+        })));
+    }
+
+    function mostProlificActorInPeriodManual(){
+      return sequelize.query(`
+        SELECT NB.nconst, MAX(NB.primaryname), MAX(nb.birthyear), MAX(NB.deathyear), MAX(nb.primaryprofession), COUNT(*) AS number_of_titles
+        FROM imdb.title_basics AS TB
+        RIGHT JOIN imdb.title_principals AS TP ON TP.tconst = TB.tconst
+        RIGHT JOIN imdb.name_basics AS NB ON NB.nconst = TP.nconst
+        WHERE TB.startyear >= :startyear AND TB.startyear <= :endyear
+        GROUP BY NB.nconst
+        ORDER BY number_of_titles DESC
+        LIMIT 1
+      `, {
+        model: nameBasic,
+        mapToModel: true,
+        replacements: {
+          startyear: startYear,
+          endyear: endYear
+        }
+      });
+    }
+
+    function mostProlificActorInPeriodManualOptimized(){
+      return sequelize.query(`
+        WITH best_actor AS (
+                SELECT TP.nconst, COUNT(*) AS number_of_titles
+                FROM imdb.title_basics AS TB
+                LEFT JOIN imdb.title_principals AS TP ON TP.tconst = TB.tconst
+                WHERE TB.startyear >= :startyear AND TB.startyear <= :endyear AND TP.nconst IS NOT NULL
+                GROUP BY TP.nconst
+                ORDER BY number_of_titles DESC
+                LIMIT 1
+        )
+        SELECT BA.nconst, BA.number_of_titles, NB.primaryname, nb.birthyear, NB.deathyear, nb.primaryprofession
+        FROM best_actor AS BA
+        JOIN imdb.name_basics AS NB ON NB.nconst = BA.nconst
+      `, {
+        model: nameBasic,
+        mapToModel: true,
+        replacements: {
+          startyear: startYear,
+          endyear: endYear
+        }
+      });
+    }
+
+    return mostProlificActorInPeriodInApp();
+    //return mostProlificActorInPeriodManual();
+    //return mostProlificActorInPeriodManualOptimized();
+  },
+  
   mostProlificActorInGenre(genre) {
     function mostProlificActorInGenreInApp() {
       const titlesMatchingGenre = titleBasic
