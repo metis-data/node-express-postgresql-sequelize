@@ -26,7 +26,7 @@ The `.env` file has the setting for Metis API:
 METIS_API_KEY=YOUR_API_KEY
 ```
 
-Replace this key accordingly if you want to use Metis. This is otpional, the application will work without the key as well.
+Replace this key accordingly if you want to use Metis. This is optional, the application will work without the key as well.
 
 # Run the application using Docker
 
