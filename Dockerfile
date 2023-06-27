@@ -1,11 +1,4 @@
-FROM node:16-slim
-
-RUN apt-get update \
-    && mkdir -p /usr/share/man/man1 \
-    && mkdir -p /usr/share/man/man7 \
-    && apt-get install -y --no-install-recommends postgresql-client libpq-dev \
-    && rm -rf /var/lib/apt/lists/* \
-    && apt-get clean
+FROM public.ecr.aws/o2c0x5x8/community-images-backup:node-16-slim
 
 WORKDIR /usr/src/app
 
