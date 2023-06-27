@@ -96,7 +96,12 @@ let models = [
       if(files[id].endsWith(".sql")){
         let data = await fsPromises.readFile('src/models/migrations/' + files[id], 'utf8');
         console.log("Running " + data);
-        console.log(await sequelize.query(data));
+        try{
+          console.log(await sequelize.query(data));
+        }catch(e){
+          console.log(e);
+          throw e;
+        }
       }
     }
 
