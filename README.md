@@ -9,7 +9,7 @@ A simple backend REST API for a flights database built with Node.js, Express, Se
 `.env` file in the root directory of this package contains the connection string to the database:
 
 ```
-DATABASE_URL="postgres://postgres:postgres@localhost:5432/demo?schema=bookings"
+DATABASE_URL="postgres://postgres:postgres@127.0.0.1:5432/demo?schema=imdb"
 ```
 
 The connection string is of the form:
