@@ -4,8 +4,8 @@ module.exports = {
   initialize(router) {
     router.get('/titles', this.handleResult(this.getTitles));
     router.get('/titlesForAnActor', this.handleResult(this.titlesForAnActor));
-    router.get('/highestRatestMoviesForAnActor', this.handleResult(this.highestRatestMoviesForAnActor));
-    router.get('/highestRatestMovies', this.handleResult(this.highestRatestMovies));
+    router.get('/highestRatedMoviesForAnActor', this.handleResult(this.highestRatedMoviesForAnActor));
+    router.get('/highestRatedMovies', this.handleResult(this.highestRatedMovies));
     router.get('/commonMoviesForTwoActors', this.handleResult(this.commonMoviesForTwoActors));
     router.get('/crewOfGivenMove', this.handleResult(this.crewOfGivenMove));
     router.get('/mostProlificActorInPeriod', this.handleResult(this.mostProlificActorInPeriod));
@@ -21,12 +21,12 @@ module.exports = {
     return titlesService.titlesForAnActor(req.query.nconst);
   },
 
-  highestRatestMoviesForAnActor(req, res) {
-    return titlesService.highestRatestMoviesForAnActor(req.query.nconst);
+  highestRatedMoviesForAnActor(req, res) {
+    return titlesService.highestRatedMoviesForAnActor(req.query.nconst);
   },
 
-  highestRatestMovies(req, res) {
-    return titlesService.highestRatestMovies(req.query.numvotes);
+  highestRatedMovies(req, res) {
+    return titlesService.highestRatedMovies(req.query.numvotes);
   },
 
   commonMoviesForTwoActors(req, res) {
