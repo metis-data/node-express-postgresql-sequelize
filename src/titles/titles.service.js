@@ -209,6 +209,43 @@ module.exports = {
           ]
         });
     }
+
+    function commonMoviesForTwoActorsInApp() {
+      const first = titlePrincipal 
+        .findAll({
+          attributes: ['tconst'],
+          where: {
+            'nconst': actor1
+          }
+        }).then(titles => titles.map(t => t.tconst));
+
+      const second = titlePrincipal 
+      .findAll({
+        attributes: ['tconst'],
+        where: {
+          'nconst': actor2
+        }
+      }).then(titles => titles.map(t => t.tconst));
+
+      return first.then(firstTitles => second.then(secondTitles => { 
+        console.log(firstTitles);
+        return titleBasic 
+          .findAll({
+            where: {
+              tconst: { 
+                [Op.and]: [
+                  {
+                    [Op.in]: [...firstTitles]
+                  },
+                  {
+                    [Op.in]: [...secondTitles]
+                  }
+                ]
+              }
+            }
+        });
+      }));
+    }
     
     function commonMoviesForTwoActorsManual() {
       return sequelize.query(`CREATE INDEX IF NOT EXISTS title_principals_nconst_idx ON imdb.title_principals(nconst) INCLUDE (tconst)`).then(() => 
@@ -230,6 +267,7 @@ module.exports = {
     }
     
     return commonMoviesForTwoActorsNaive();
+    //return commonMoviesForTwoActorsInApp();
     //return commonMoviesForTwoActorsManual();
   },
   
