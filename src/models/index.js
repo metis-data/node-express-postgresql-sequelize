@@ -89,6 +89,21 @@ let models = [
   })();
 })();
 
+(function resetExtensions(){
+  db.resetExtensions = async () => {
+    try{
+      console.log(await sequelize.query('SELECT pg_store_plans_reset();'));
+    }catch(e){
+      console.log(e);
+    }
+    try{
+      console.log(await sequelize.query('SELECT pg_stat_statements_reset();'));
+    }catch(e){
+      console.log(e);
+    }
+  };
+})();
+
 (function seed(){
   db.seedDatabase = async () => {
     let files = await fsPromises.readdir('src/models/migrations/');
