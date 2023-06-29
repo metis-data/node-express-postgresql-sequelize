@@ -7,7 +7,7 @@ module.exports = {
     router.get('/highestRatedMoviesForAnActor', this.handleResult(this.highestRatedMoviesForAnActor));
     router.get('/highestRatedMovies', this.handleResult(this.highestRatedMovies));
     router.get('/commonMoviesForTwoActors', this.handleResult(this.commonMoviesForTwoActors));
-    router.get('/crewOfGivenMove', this.handleResult(this.crewOfGivenMove));
+    router.get('/crewOfGivenMovie', this.handleResult(this.crewOfGivenMovie));
     router.get('/mostProlificActorInPeriod', this.handleResult(this.mostProlificActorInPeriod));
     router.get('/mostProlificActorInGenre', this.handleResult(this.mostProlificActorInGenre));
     router.get('/mostCommonTeammates', this.handleResult(this.mostCommonTeammates));
@@ -33,8 +33,8 @@ module.exports = {
     return titlesService.commonMoviesForTwoActors(req.query.actor1, req.query.actor2);
   },
 
-  crewOfGivenMove(req, res) {
-    return titlesService.crewOfGivenMove(req.query.tconst);
+  crewOfGivenMovie(req, res) {
+    return titlesService.crewOfGivenMovie(req.query.tconst);
   },
 
   mostProlificActorInPeriod(req, res) {

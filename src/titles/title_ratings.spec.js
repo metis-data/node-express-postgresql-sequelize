@@ -13,7 +13,7 @@ describe('AppController (e2e)', function (){
     '/highestRatedMoviesForAnActor?nconst=nm1588970',
     '/highestRatedMovies?numvotes=10000',
     '/commonMoviesForTwoActors?actor1=nm0302368&actor2=nm0001908',
-    '/crewOfGivenMove?tconst=tt0000439',
+    '/crewOfGivenMovie?tconst=tt0000439',
     '/mostProlificActorInPeriod?startYear=1900&endYear=1912',
     '/mostProlificActorInGenre?genre=Action',
     '/mostCommonTeammates?nconst=nm0000428',

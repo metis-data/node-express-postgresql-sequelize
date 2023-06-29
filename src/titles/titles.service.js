@@ -271,8 +271,8 @@ module.exports = {
     //return commonMoviesForTwoActorsManual();
   },
   
-  crewOfGivenMove(tconst) {
-    function crewOfGivenMoveManualSlow(){
+  crewOfGivenMovie(tconst) {
+    function crewOfGivenMovieManualSlow(){
         return sequelize.query(`
           SELECT DISTINCT NB.*
           FROM imdb.title_basics AS TB
@@ -298,7 +298,7 @@ module.exports = {
       });
     }
 
-    function crewOfGivenMoveWithUnions() {
+    function crewOfGivenMovieWithUnions() {
       return sequelize.query(`
         SELECT DISTINCT NB.*
         FROM imdb.title_principals AS TP
@@ -380,7 +380,7 @@ module.exports = {
       });
     }
 
-    function crewOfGivenMoveInAppCode() {
+    function crewOfGivenMovieInAppCode() {
       const crewViaTitlePrincipals = titlePrincipal 
         .findAll({
           attributes: ['nconst'],
@@ -411,7 +411,7 @@ module.exports = {
         }));
     }
 
-    function crewOfGivenMoveManualFast() {
+    function crewOfGivenMovieManualFast() {
       return sequelize.query(`
         WITH RECURSIVE numbers AS (
           SELECT 1 AS number
@@ -449,10 +449,10 @@ module.exports = {
         });
     }
 
-    return crewOfGivenMoveManualSlow();
-    //return crewOfGivenMoveWithUnions();
-    //return crewOfGivenMoveInAppCode();
-    //return crewOfGivenMoveManualFast();
+    return crewOfGivenMovieManualSlow();
+    //return crewOfGivenMovieWithUnions();
+    //return crewOfGivenMovieInAppCode();
+    //return crewOfGivenMovieManualFast();
   },
   
   mostProlificActorInPeriod(startYear, endYear) {
