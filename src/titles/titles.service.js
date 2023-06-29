@@ -78,8 +78,8 @@ module.exports = {
     //return titlesForAnActorManual();
   },
   
-  highestRatestMoviesForAnActor(nconst) {
-    function highestRatestMoviesForAnActorNaive(){
+  highestRatedMoviesForAnActor(nconst) {
+    function highestRatedMoviesForAnActorNaive(){
       return titleBasic 
         .findAll({
           include: [
@@ -105,7 +105,7 @@ module.exports = {
         });
     }
 
-    function highestRatestMoviesForAnActorWithIndex() {
+    function highestRatedMoviesForAnActorWithIndex() {
       return sequelize.query(`CREATE INDEX IF NOT EXISTS title_principals_nconst_idx ON imdb.title_principals(nconst) INCLUDE (tconst)`).then(() => 
         titleBasic 
           .findAll({
@@ -133,12 +133,12 @@ module.exports = {
       );
     }
 
-    return highestRatestMoviesForAnActorNaive();
-    //return highestRatestMoviesForAnActorWithIndex();
+    return highestRatedMoviesForAnActorNaive();
+    //return highestRatedMoviesForAnActorWithIndex();
   },
   
-  highestRatestMovies(numvotes) {
-    function highestRatestMoviesNaive() {
+  highestRatedMovies(numvotes) {
+    function highestRatedMoviesNaive() {
       return titleBasic 
         .findAll({
           include: [
@@ -157,7 +157,7 @@ module.exports = {
         });
     }
 
-    function highestRatestMoviesWithIndex() {
+    function highestRatedMoviesWithIndex() {
       return sequelize.query(`CREATE INDEX IF NOT EXISTS IDX_title_ratings_637d5836 ON imdb.title_ratings (numvotes)`).then(() => 
         titleBasic 
           .findAll({
@@ -178,8 +178,8 @@ module.exports = {
       );
     }
 
-    return highestRatestMoviesNaive();
-    //return highestRatestMoviesWithIndex();
+    return highestRatedMoviesNaive();
+    //return highestRatedMoviesWithIndex();
   },
   
   commonMoviesForTwoActors(actor1, actor2) {
