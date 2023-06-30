@@ -2,7 +2,7 @@
 
 # Node.js, Express, Sequelize, and PostgreSQL
 
-A simple backend REST API for a flights database built with Node.js, Express, Sequelize, PostgreSQL.
+A simple backend REST API for IMDb database built with Node.js, Express, Sequelize, PostgreSQL.
 
 # Environment configuration
 
