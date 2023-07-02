@@ -16,7 +16,7 @@ sleep 5
 
 ssh-keygen -R '[localhost]:58222'
 pkill -f "ssh -i $(pwd)/ssh_tunnel/tunnel_rsa tunnel@localhost -p 58222"
-ssh -i "$(pwd)"/ssh_tunnel/tunnel_rsa tunnel@localhost -p 58222 -4 -o StrictHostKeyChecking=no -R 5432:0.0.0.0:5432 -fN
+ssh -i "$(pwd)"/ssh_tunnel/tunnel_rsa tunnel@localhost -p 58222 -4 -o StrictHostKeyChecking=no -R 5432:127.0.0.1:5432 -fN
 
 docker build -t node_express_postgresql_sequelize .
 
