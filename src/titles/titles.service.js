@@ -228,7 +228,6 @@ module.exports = {
       }).then(titles => titles.map(t => t.tconst));
 
       return first.then(firstTitles => second.then(secondTitles => { 
-        console.log(firstTitles);
         return titleBasic 
           .findAll({
             where: {
@@ -457,7 +456,7 @@ module.exports = {
   
   mostProlificActorInPeriod(startYear, endYear) {
     function mostProlificActorInPeriodInApp() {
-      const titlesMatchingGenre = titleBasic
+      const titlesMatchingPeriod = titleBasic
         .findAll({
           attributes: ['tconst'],
           where: {
@@ -470,7 +469,7 @@ module.exports = {
           }
         }).then(titles => titles.map(t => t.tconst));
 
-      const principals = titlesMatchingGenre.then(titles => titlePrincipal
+      const principals = titlesMatchingPeriod.then(titles => titlePrincipal
         .findAll({
           attributes: ['nconst'],
           where: {
