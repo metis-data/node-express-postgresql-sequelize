@@ -648,7 +648,6 @@ module.exports = {
   },
   
   mostCommonTeammates(nconst) {
-
     function mostCommonTeammatesManual(){
       return sequelize.query(`
         WITH RECURSIVE numbers AS (
