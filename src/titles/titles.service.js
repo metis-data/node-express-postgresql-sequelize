@@ -605,7 +605,7 @@ module.exports = {
         FROM imdb.name_basics AS NB
         LEFT JOIN imdb.title_principals AS TP ON TP.nconst = NB.nconst
         LEFT JOIN imdb.title_basics AS TB ON TB.tconst = TP.tconst
-        WHERE TB.genres = :genre OR TB.genres LIKE (:genre || '%,') OR TB.genres LIKE ('%,' || :genre || ',%') OR TB.genres LIKE ('%,' || :genre)
+        WHERE TB.genres = :genre OR TB.genres LIKE (:genre || ',%') OR TB.genres LIKE ('%,' || :genre || ',%') OR TB.genres LIKE ('%,' || :genre)
         GROUP BY NB.nconst, NB.primaryname, NB.birthyear
         ORDER BY movies_count DESC
         LIMIT 10
@@ -624,7 +624,7 @@ module.exports = {
           SELECT TP.nconst, COUNT(*) AS movies_count
           FROM imdb.title_basics AS TB
           LEFT JOIN imdb.title_principals AS TP ON TP.tconst = TB.tconst
-          WHERE TB.genres = :genre OR TB.genres LIKE (:genre || '%,') OR TB.genres LIKE ('%,' || :genre || ',%') OR TB.genres LIKE ('%,' || :genre)
+          WHERE TB.genres = :genre OR TB.genres LIKE (:genre || ',%') OR TB.genres LIKE ('%,' || :genre || ',%') OR TB.genres LIKE ('%,' || :genre)
           GROUP BY TP.nconst
           ORDER BY movies_count DESC
           LIMIT 10
