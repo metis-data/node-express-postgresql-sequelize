@@ -505,7 +505,7 @@ module.exports = {
 
     function mostProlificActorInPeriodManual(){
       return sequelize.query(`
-        SELECT NB.nconst, MAX(NB.primaryname), MAX(nb.birthyear), MAX(NB.deathyear), MAX(nb.primaryprofession), COUNT(*) AS number_of_titles
+      SELECT NB.nconst, MAX(NB.primaryname) AS primaryname, MAX(nb.birthyear) AS birthyear, MAX(NB.deathyear) AS deathyear, MAX(nb.primaryprofession) AS primaryprofession, COUNT(*) AS number_of_titles
         FROM imdb.title_basics AS TB
         RIGHT JOIN imdb.title_principals AS TP ON TP.tconst = TB.tconst
         RIGHT JOIN imdb.name_basics AS NB ON NB.nconst = TP.nconst
