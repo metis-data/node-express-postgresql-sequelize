@@ -9,6 +9,6 @@ docker stop node_express_postgresql_sequelize_ssh -t 1
 docker rm --force node_express_postgresql_sequelize_ssh
 docker rmi --force node_express_postgresql_sequelize_ssh
 docker rmi --force public.ecr.aws/o2c0x5x8/community-images-backup:lscr.io-linuxserver-openssh-server
-docker rmi --force public.ecr.aws/o2c0x5x8/community-images-backup:node-16-slim
+docker rmi --force public.ecr.aws/o2c0x5x8/application-base:node-express-postgres-sequelize
 docker system prune
 docker volume prune
