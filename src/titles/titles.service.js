@@ -158,7 +158,7 @@ module.exports = {
     }
 
     function highestRatedMoviesWithIndex() {
-      return sequelize.query(`CREATE INDEX IF NOT EXISTS IDX_title_ratings_637d5836 ON imdb.title_ratings (numvotes)`).then(() => 
+      return sequelize.query(`CREATE INDEX IF NOT EXISTS IDX_title_ratings ON imdb.title_ratings (numvotes)`).then(() => 
         titleBasic 
           .findAll({
             include: [
