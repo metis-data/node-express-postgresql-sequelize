@@ -1,42 +1,80 @@
-[![metis](https://static-asserts-public.s3.eu-central-1.amazonaws.com/metis-min-logo.png)](https://www.metisdata.io/)
+<a href="https://www.metisdata.io/"><img src="https://static-asserts-public.s3.eu-central-1.amazonaws.com/metis-min-logo.png" width="605" height="163" alt="Metis"></a>
 
-# Sequelize, Node.js, Express and PostgreSQL RESTful API
+# Node.js, Express, Sequelize, and PostgreSQL
 
-Using the [Documentation](https://docs.metisdata.io/metis/sdk-integration/javascript-sequelize) of [Metis](https://app.metisdata.io/) and this source code is part of [Node.js, Express.js, Sequelize.js and PostgreSQL RESTful API](https://www.djamware.com/post/5b56a6cc80aca707dd4f65a9/nodejs-expressjs-sequelizejs-and-postgresql-restful-api) tutorial.
+A simple backend REST API for IMDb database built with Node.js, Express, Sequelize, PostgreSQL.
 
-## Setup
+# Environment configuration
 
-### 1. Insert API Key
-Insert your api key into `METIS_API_KEY` at `./models/index.js line:43`
+`.env` file in the root directory of this package contains the connection string to the database:
 
-### 2. Setup a local PostgreSQL Database.
-
-<ins><b>Option 1</b></ins>: Native PostgreSLQ
-- Install PostgreSQL locally.
-- Create a Database with a name matching `development.test` inside `./config/config.json`.
-- Run `npm install`
-- Run `sequelize db:migrate`.
-
-
-<ins><b>Option 2</b></ins>: Docker Database
 ```
-docker-compose up db
-```
-### 3. Run
-<ins><b>Option 1</b></ins>: Native Express Server
-```
-npm start
-```
-<ins>**Option 2**</ins>: Docker
-```
-docker-compose run --rm api bash
+DATABASE_URL="postgres://postgres:postgres@127.0.0.1:5432/demo?schema=imdb"
 ```
 
-### 3. Trigger your Database.
-Open [localhost:3000](http://localhost:3000/api/student) and play around. 
+The connection string is of the form:
 
-### 4. Go to Metis
-Navigate to [Metis](https://app.metisdata.io) to view your recent activity.
+```
+postgres://USERNAME:PASSWORD@SERVER:PORT/DATABASE_NAME?schema=SCHEMA
+```
+
+If you use your different PostgreSQL instance, then change this key accordingly.
+
+The `.env` file has the setting for Metis API:
+
+```
+METIS_API_KEY=YOUR_API_KEY
+```
+
+Replace this key accordingly if you want to use Metis with TestContainers. This is optional, the application will work without the key as well.
+
+# Run the application using Docker
+
+Run the command:
+
+```
+./start-service.sh
+```
+
+This will create the Docker container and start it.
+
+If you want to remove the image after you're done, run this:
+
+```
+./remove-container.sh
+```
+
+This script will prune the images as well. It will ask for confirmation.
+
+# Run the application directly
+
+Make sure you have the Node.js installed (version 16+).
+
+Run the build script:
+
+```
+./build-and-run.sh
+```
+
+# Test application
+
+Make sure you have the Node.js installed (version 16+).
+
+Run the test script:
+
+```
+./test-with-external-dependencies.sh
+```
+
+# Test application with TestContainers and no external dependencies
+
+Make sure you have the Node.js installed (version 16+).
+
+Run the test script that will start the database and the Metis collector:
+
+```
+./test.sh
+```
 
 # You're all set! 🎉 
 Fore more info visit our - [Documentation](https://docs.metisdata.io)
