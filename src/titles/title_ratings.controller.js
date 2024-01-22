@@ -18,10 +18,10 @@ module.exports = {
   handleResult(lambda) {
     return (req, res) => lambda(req, res)
       .then((results) => {
-        const traceId = api.trace.getSpan(api.context.active()).spanContext().traceId;
+        // const traceId = api.trace.getSpan(api.context.active()).spanContext().traceId;
         return res
-          .set('x-traceid', traceId)
-          .set("Access-Control-Expose-Headers","x-traceid")
+          // .set('x-traceid', traceId)
+          // .set("Access-Control-Expose-Headers","x-traceid")
           .status(200).send(results);
       })
       .catch((error) => { console.log(error); res.status(400).send(error); });
