@@ -2,6 +2,7 @@ name: Test application on Pull Request
 run-name: Test application on Pull Request
 on: [pull_request]
 env:
+  METIS_API_KEY: ${{ vars.METIS_API_KEY }}
   MOCK_CONTAINER_DEPENDENCIES: true
 
 jobs:
