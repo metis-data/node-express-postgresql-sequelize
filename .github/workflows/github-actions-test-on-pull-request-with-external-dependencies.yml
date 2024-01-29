@@ -12,7 +12,7 @@ jobs:
            - 5432:5432
 
     steps:
-     - name: Initialize metis collector
+      - name: Initialize metis collector
         uses: metis-data/test-collector@v1
         with:
           connection-string: postgresql://postgres:postgres@database:5432/demo?schema=imdb
