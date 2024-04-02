@@ -1,5 +1,5 @@
 name: Test application on Pull Request with external dependencies
-run-name: Test application on Pull Requestwith external dependencies
+run-name: Test application on Pull Request with external dependencies
 on: [pull_request]
 
 jobs:
