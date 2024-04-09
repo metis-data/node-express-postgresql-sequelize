@@ -9,3 +9,4 @@ function initialize(router) {
 module.exports = {
   initialize,
 };
+
