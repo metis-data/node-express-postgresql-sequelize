@@ -5,7 +5,7 @@ const process = require('process');
 const db = {};
 const fsPromises = require('fs').promises;
 
-let sequelize = new Sequelize(process.env['DATABASE_URL'], { dialect: 'postgres' });
+let sequelize = new Sequelize(process.env['DATABASE_URL']);
 
 let models = [
   '../titles/entities/title_rating.entity',
